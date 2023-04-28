@@ -8,13 +8,22 @@ const PORT = process.env.PORT || 5000;
 
 const app = express();
 
+// Middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// Routes
+app.get("/", (req, res) => {
+    res.send("Home page");
+});
+
 // Connect to mongoDB and start server
 mongoose
-    .connect(process.env.MONGODB_URI)
-    .then(() => {
-        app.listen(PORT, () => {
-            console.log(`Server running on port ${PORT}`);
-        });
-    })
-    .catch((err) => console.log(err));
-
+  .connect(process.env.MONGODB_URI)
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
+  .catch((err) => console.log(err));
